@@ -55,6 +55,7 @@ test("mobile layout, downloads, search and account availability", async ({
 });
 test("meta portraits use Valve asset names and load in the browser", async ({ page }) => {
   await page.goto("/");
+  await expect(page.locator("#list .hero-link")).toHaveText(["Axe ↗"]);
   await page.evaluate(() => window.applyMeta({
     ranks: ["Legend"], roles: ["Carry"], data: { "0|0": [
       { hero: "Wraith King", heroId: 42, wr: 55, pr: 5, tr: 1 },
