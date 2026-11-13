@@ -44,12 +44,17 @@ function render() {
     render();
   });
   let d = (DB.data[rank + "|" + role] || []).slice();
+  const allRows = d.slice();
+  if (window.filterMeta) d = window.filterMeta(d);
+  const query = $("q").value.trim().toLowerCase();
+  window.updateMetaTools?.({ rows:allRows, rank:DB.ranks[rank], role:DB.roles[role],
+    visible:d.filter(x=>x.hero.toLowerCase().includes(query)).length });
   const k = $("sort").value;
   d.sort((a, b) => b[k] - a[k]);
   if (!d.length) {
     $("top").innerHTML = "";
     $("list").innerHTML =
-      '<div class="empty">Для этого рейтинга и позиции пока нет данных. Выберите другой фильтр.</div>';
+      '<div class="empty">'+(allRows.length ? 'Нет героев с выбранными фильтрами. Уменьшите минимальный пикрейт или отключите «Только избранные».' : 'Для этого рейтинга и позиции пока нет данных. Выберите другой фильтр.')+'</div>';
     return;
   }
   const best = [...d].sort((a, b) => b.wr - a.wr)[0],
@@ -77,7 +82,7 @@ function render() {
       ? f
           .map((x) => {
             const t = tier(x.wr);
-            return `<div class="row"><div class="tier t${t}">${t}</div><div class="hero">${avId(x.heroId, x.hero)}<button class="hero-link" data-hero-id="${Number(x.heroId) || 0}" data-hero-name="${esc(x.hero)}">${esc(x.hero)} ↗</button></div>
+            return `<div class="row"><div class="tier t${t}">${t}</div><div class="hero">${window.favoriteButton?.(x) || ""}${avId(x.heroId, x.hero)}<button class="hero-link" data-hero-id="${Number(x.heroId) || 0}" data-hero-name="${esc(x.hero)}">${esc(x.hero)} ↗</button></div>
    <div class="wr"><b>${x.wr.toFixed(1)}%</b><div class="trk"><div class="fill" style="width:${Math.max(0, Math.min(100, ((x.wr - 44) / 12) * 100))}%"></div></div></div>
    <div class="num">${x.pr.toFixed(1)}%</div><div class="num ${x.tr >= 0 ? "up" : "dn"}">${x.tr >= 0 ? "▲" : "▼"} ${Math.abs(x.tr).toFixed(1)}</div></div>`;
           })
@@ -86,6 +91,8 @@ function render() {
 }
 $("q").oninput = render;
 $("sort").onchange = render;
+window.renderMeta = render;
+window.metaEscape = esc;
 
 function view(i) {
   ["metaView", "matchView", "playerView", "cmpView"].forEach(
@@ -685,7 +692,10 @@ async function findPlayer() {
     pmsg("Не удалось выполнить поиск. Попробуйте позже.");
   }
 }
+let playerGeneration = 0;
 async function loadPlayer(id) {
+  const generation = ++playerGeneration;
+  window.dispatchEvent(new CustomEvent("player-loading"));
   pmsg("Загружаю профиль…");
   try {
     const H = await loadHeroes();
@@ -699,6 +709,7 @@ async function loadPlayer(id) {
       g("/recentMatches"),
       g("/heroes"),
     ]);
+    if (generation !== playerGeneration) return;
     if (!pr || !pr.profile) {
       pmsg("Профиль не найден. Проверьте ID.");
       return;
@@ -802,7 +813,9 @@ async function loadPlayer(id) {
           "</table></div></div>"
         : '<div class="msg">История матчей скрыта настройками профиля (Expose Public Match Data) или пуста.</div>') +
       "</div>";
+    window.dispatchEvent(new CustomEvent("player-profile", { detail:{ id, heroes:H } }));
   } catch (e) {
+    if (generation !== playerGeneration) return;
     pmsg(
       "Не удалось загрузить профиль. Попробуйте через минуту: у OpenDota есть лимит запросов.",
     );

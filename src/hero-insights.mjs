@@ -200,7 +200,7 @@ export function initInsights() {
       }
     }
   }
-  document.getElementById("list").addEventListener("click", (event) => {
+  document.addEventListener("click", (event) => {
     const b = event.target.closest("[data-hero-name]");
     if (b) open(b.dataset.heroName, Number(b.dataset.heroId));
   });
@@ -226,4 +226,5 @@ export function initInsights() {
     );
   });
 }
+
 

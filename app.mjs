@@ -1,3 +1,5 @@
+import { initPlayerTools } from "./src/player-tools.mjs";
+initPlayerTools();
 var __defProp = Object.defineProperty;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __esm = (fn, res) => function __init() {
@@ -1088,4 +1090,5 @@ document.addEventListener("visibilitychange", () => {
 @capacitor/core/dist/index.js:
   (*! Capacitor: https://capacitorjs.com/ - MIT License *)
 */
+
 

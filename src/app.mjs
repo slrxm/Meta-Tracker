@@ -1,6 +1,8 @@
 import { Capacitor } from "@capacitor/core";
 import { initInsights } from "./hero-insights.mjs";
 import { App } from "@capacitor/app";
+import { initPlayerTools } from "./player-tools.mjs";
+initPlayerTools();
 const $ = (id) => document.getElementById(id),
   native = Capacitor.isNativePlatform();
 if (native) document.body.classList.add("native");
@@ -247,4 +249,5 @@ setInterval(() => {
 document.addEventListener("visibilitychange", () => {
   if (!document.hidden) refreshMeta();
 });
+
 
