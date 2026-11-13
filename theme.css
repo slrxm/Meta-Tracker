@@ -858,7 +858,7 @@ select:focus {
 
 /* META TRACKER rose theme */
 :root { --bg:#080808; --panel:#191518; --panel2:#251c21; --line:#49363f; --ice:#efb5ca; --ice2:#f9e2eb; --txt:#faf1f5; --mut:#c9b5be; }
-body { background:rgb(var(--page-r,8),var(--page-g,8),var(--page-b,8)); }
+body { background:#080808; }
 h1 { background:none; color:#f5c7d8; text-shadow:none; letter-spacing:.09em; }
 header { background:#191518; border:1px solid var(--line); border-radius:20px; padding:24px 12px; }
 .brand-icon { border-color:#b98b9c; filter:none; }
@@ -903,3 +903,11 @@ header { background:#191518; border:1px solid var(--line); border-radius:20px; p
  .row .av { width:40px; height:26px; }
 }
 
+/* Match leader badges share the quiet rose palette. */
+.match-award-heading { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+.match-award-heading .k { min-width:0; line-height:1.5; }
+.match-award-icon { display:grid; place-items:center; flex:0 0 56px; width:56px; height:56px; border:1px solid var(--line); border-radius:14px; background:#251c21; color:#c9b5be; }
+.match-award-icon svg { width:46px; height:46px; }
+.match-award-icon .award-accent { stroke:#f5c7d8; }
+.award-hero_healing .award-accent { stroke:#99dfb4; fill:#99dfb41a; }
+.match-award::after { display:none; }

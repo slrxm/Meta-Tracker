@@ -404,11 +404,22 @@ function showMatch(m, H) {
     bl = best("last_hits"),
     bd = best("denies"),
     bh = best("hero_damage");
+  // Local vector badges: sharp at every screen size, including offline.
+  const awardPaths = {
+    kills: '<path d="M17 35v-9a15 15 0 1 1 30 0v9l-7 5v9H24v-9z"/><path d="M25 47v-5m7 5v-5m7 5v-5M24 28l5 3m11-3-5 3M30 36h4"/><path class="award-accent" d="m13 53 33-33 5-11-11 5-33 33m6-6 10 10"/>',
+    last_hits: '<path d="m12 27 7-14 13 5 13-5 7 14-5 18-15 9-15-9z"/><path d="m12 27 12-5 8 8 8-8 12 5M22 35h5m10 0h5m-15 9h10"/><path class="award-accent" d="m8 8 46 46m-4-11 4 11-11-4"/>',
+    denies: '<path d="m12 27 7-14 13 5 13-5 7 14-5 18-15 9-15-9z"/><path d="m12 27 12-5 8 8 8-8 12 5M22 35h5m10 0h5m-15 9h10"/><path class="award-accent" d="m13 13 38 38m0-38L13 51"/>',
+    hero_damage: '<path d="m22 40 25-29 8-2-2 8-29 25z"/><path class="award-accent" d="m15 33 17 17m-10-8-10 12-5-5 12-10M12 17l7 2m17 34 2 6M31 5l-2 7"/>',
+    hero_healing: '<path class="award-accent" d="M24 10h16v14h14v16H40v14H24V40H10V24h14z"/><path d="M8 8v8m-4-4h8m42 36v10m-5-5h10"/>',
+    tower_damage: '<path d="M13 26V12h8v7h7v-7h8v7h7v-7h8v14l-6 5 4 22H15l4-22z"/><path class="award-accent" d="m35 8-8 21 10 4-10 24"/><path d="M9 53h13m18 0h15M8 33l-4 5m52-5 4 5"/>',
+    obs_placed: '<path d="M7 27s10-14 25-14 25 14 25 14-10 14-25 14S7 27 7 27z"/><circle class="award-accent" cx="32" cy="27" r="7"/><path d="M28 41v13h8V41"/>',
+  };
+  const awardIcon = (key) => '<span class="match-award-icon award-' + key + '" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" focusable="false">' + (awardPaths[key] || '') + '</svg></span>';
   const card = (t, p, v) =>
     (p[v[0]] || 0) > 0
-      ? '<div class="card"><div class="k">' +
+      ? '<div class="card match-award"><div class="match-award-heading">' + awardIcon(v[0]) + '<div class="k">' +
         t +
-        '</div><div class="v pn">' +
+        '</div></div><div class="v pn">' +
         esc(p.nm) +
         '</div><div class="s">' +
         esc(p.hn) +
@@ -1443,5 +1454,4 @@ if (
       .catch(() => {}),
   );
 }
-
 

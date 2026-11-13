@@ -1,5 +1,5 @@
-const CACHE='frostmeta-v11';
-const SHELL=['./scroll-theme.js?v=11','./','./index.html','./theme.css?v=11','./core.js?v=11','./app.css?v=11','./app.mjs?v=11','./app-config.json','./manifest.json','./favicon.png?v=11','./icons/icon-192.png?v=11','./icons/icon-512.png'];
+const CACHE='frostmeta-v12';
+const SHELL=['./','./index.html','./theme.css?v=12','./core.js?v=12','./app.css?v=12','./app.mjs?v=12','./app-config.json','./manifest.json','./favicon.png?v=12','./icons/icon-192.png?v=12','./icons/icon-512.png'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(SHELL)));self.skipWaiting();});
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('frostmeta-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{
@@ -10,5 +10,4 @@ self.addEventListener('fetch',event=>{
   return response;
  }).catch(async()=>await caches.match(event.request)||(event.request.mode==='navigate'?await caches.match('./index.html'):Response.error())));
 });
-
 
