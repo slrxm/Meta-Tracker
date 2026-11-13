@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#080510">
+<link rel="icon" type="image/png" sizes="64x64" href="./favicon.png?v=8">
+<link rel="apple-touch-icon" href="./icons/icon-192.png?v=8">
+<link rel="manifest" href="./manifest.json">
+<title>META TRACKER — мета Dota 2</title>
+<link rel="stylesheet" href="./theme.css?v=8">
+<link rel="stylesheet" href="./app.css?v=8">
+</head>
+<body>
+<div class="wrap">
+<div class="utility"><button class="quiet download-trigger" id="downloadApp">↓ Скачать приложение</button><button class="quiet" id="accountButton">Мой профиль</button></div>
+<section id="accountPanel" class="account-panel" hidden aria-live="polite"></section>
+<header>
+<img class="brand-icon" src="./icons/icon-192.png?v=8" alt="Логотип META TRACKER">
+<h1>META TRACKER</h1>
+<div class="sub">МЕТА И СТАТИСТИКА МАТЧЕЙ DOTA 2</div>
+</header>
+
+<div class="tabs nav">
+<button class="tab on" id="nv0" onclick="view(0)">Мета героев</button>
+<button class="tab" id="nv1" onclick="view(1)">Поиск матча</button>
+<button class="tab" id="nv2" onclick="view(2)">Игрок</button>
+<button class="tab" id="nv3" onclick="view(3)">Сравнение</button>
+</div>
+<div id="metaView">
+<div class="meta-status" id="metaStatus" aria-live="polite"><span>Загружаем статистику…</span><button class="quiet" id="refreshMeta">Обновить</button></div>
+<div class="label">Рейтинг</div>
+<div class="tabs" id="ranks"></div>
+<div class="label">Позиция</div>
+<div class="tabs" id="roles"></div>
+
+<div class="bar">
+<input id="q" placeholder="Поиск героя…" autocomplete="off">
+<select id="sort">
+<option value="wr">Сортировка: винрейт</option>
+<option value="pr">Сортировка: пикрейт</option>
+<option value="tr">Сортировка: тренд</option>
+</select>
+</div>
+
+<div class="top" id="top"></div>
+<div class="list" id="list"></div>
+<div class="note" id="note"></div>
+</div>
+<div id="matchView" style="display:none">
+<div class="label">ID матча</div>
+<div class="mbar">
+<input id="mid" inputmode="numeric" placeholder="Например: 8012345678" autocomplete="off">
+<button class="btn" onclick="findMatch()">Найти</button>
+</div>
+<div id="mres"><div class="msg">Введите ID матча из клиента Dota 2 или с сайта Dotabuff / OpenDota.</div></div>
+</div>
+<div id="playerView" style="display:none">
+<div class="label">Steam ID, ссылка на профиль или ник</div>
+<div class="mbar">
+<input id="pid" placeholder="Например: 123456789 или ник игрока" autocomplete="off">
+<button class="btn" onclick="findPlayer()">Найти</button>
+</div>
+<div id="pres"><div class="msg">Подойдёт числовой Steam ID (32 или 64 бита), ссылка Dotabuff / OpenDota / Steam или ник. Профиль должен открывать историю матчей.</div></div>
+</div>
+<div id="cmpView" style="display:none">
+<div class="label">Два игрока: ID, ссылка или ник</div>
+<div class="mbar">
+<input id="ca" placeholder="Игрок 1" autocomplete="off">
+<input id="cb" placeholder="Игрок 2" autocomplete="off">
+<button class="btn" onclick="compare()">Сравнить</button>
+</div>
+<div id="cres"><div class="msg">Статистика считается по всей публичной истории матчей. Если вводите ник, берётся лучшее совпадение: для точности используйте числовой ID.</div></div>
+</div>
+
+</div>
+
+<script src="./core.js?v=8"></script>
+
+<dialog id="heroDialog" class="hero-dialog"><div class="dialog-head"><h2 id="heroTitle"></h2><button class="dialog-close" id="closeHero" aria-label="Закрыть карточку героя">×</button></div><div id="heroBody" aria-live="polite"></div></dialog>
+<dialog id="downloadDialog"><div class="dialog-head"><h2>META TRACKER с тобой</h2><button class="dialog-close" id="closeDownload" aria-label="Закрыть">×</button></div><p class="small-note">Мета, матчи и твой профиль Dota 2 — в отдельном приложении.</p><div class="download-grid" id="storeLinks"></div><p class="small-note">Android: установка через Google Play или напрямую из APK. Ссылки появятся после выпуска приложения.</p></dialog>
+<div class="toast" id="toast" role="status" hidden></div>
+<script type="module" src="./app.mjs?v=8"></script>
+<script src="./scroll-theme.js?v=8"></script>
+</body>
+</html>
+
