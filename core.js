@@ -406,12 +406,12 @@ function showMatch(m, H) {
     bh = best("hero_damage");
   // Local vector badges: sharp at every screen size, including offline.
   const awardPaths = {
-    kills: '<path d="M17 35v-9a15 15 0 1 1 30 0v9l-7 5v9H24v-9z"/><path d="M25 47v-5m7 5v-5m7 5v-5M24 28l5 3m11-3-5 3M30 36h4"/><path class="award-accent" d="m13 53 33-33 5-11-11 5-33 33m6-6 10 10"/>',
+    kills: '<g stroke-width="2.2"><path d="M27 17C16 18 10 26 11 37l4 9 7 3 2 6h16l2-6 7-3 4-9c1-11-5-19-16-20"/><path d="M16 34c4-3 10-2 12 2l-2 7c-7 2-11-2-10-9Zm32 0c-4-3-10-2-12 2l2 7c7 2 11-2 10-9Z" fill="#191518"/><path d="m32 41-3 7h6zm-8 9v5m5-4v4m6-4v4m5-5v5"/><path class="award-accent" d="M29 12V4h6v8M22 12h20v4H22zM29 16v13l3 3 3-3V16M28 55l4 7 4-7M32 20v9"/><path d="m23 23 3 4-2 3m17-7-3 4 2 3"/></g>',
     last_hits: '<path d="m12 27 7-14 13 5 13-5 7 14-5 18-15 9-15-9z"/><path d="m12 27 12-5 8 8 8-8 12 5M22 35h5m10 0h5m-15 9h10"/><path class="award-accent" d="m8 8 46 46m-4-11 4 11-11-4"/>',
     denies: '<path d="m12 27 7-14 13 5 13-5 7 14-5 18-15 9-15-9z"/><path d="m12 27 12-5 8 8 8-8 12 5M22 35h5m10 0h5m-15 9h10"/><path class="award-accent" d="m13 13 38 38m0-38L13 51"/>',
-    hero_damage: '<path d="m22 40 25-29 8-2-2 8-29 25z"/><path class="award-accent" d="m15 33 17 17m-10-8-10 12-5-5 12-10M12 17l7 2m17 34 2 6M31 5l-2 7"/>',
+    hero_damage: '<g stroke-width="2.4" class="award-accent"><path d="m25 37 21-25 10-3-3 11-23 23M29 37l21-22M16 33l21 18 4-5-21-18zM22 39 11 51l6 5 11-12"/><path d="m13 14 1-4 1 4 4 1-4 1-1 4-1-4-4-1zM47 44l1-4 1 4 4 1-4 1-1 4-1-4-4-1zM33 8v3m-5 8-3 1m29 9 3 2M6 34l3-1"/><circle cx="37" cy="57" r="1" fill="currentColor" stroke="none"/><circle cx="6" cy="24" r="1" fill="currentColor" stroke="none"/></g>',
     hero_healing: '<path class="award-accent" d="M24 10h16v14h14v16H40v14H24V40H10V24h14z"/><path d="M8 8v8m-4-4h8m42 36v10m-5-5h10"/>',
-    tower_damage: '<path d="M13 26V12h8v7h7v-7h8v7h7v-7h8v14l-6 5 4 22H15l4-22z"/><path class="award-accent" d="m35 8-8 21 10 4-10 24"/><path d="M9 53h13m18 0h15M8 33l-4 5m52-5 4 5"/>',
+    tower_damage: '<g stroke-width="2.1"><path d="m9 54 16-6 15 1 15 7-22 6zM9 54v4l24 6 22-8"/><g transform="rotate(-8 25 30)"><path d="m10 12 7-2 8-7 7 7-5 4-3 7 5 4-6 5 4 5-3 16-5-4-5-20 3-7v-7z"/><path class="award-accent" d="m13 12 13 1M20 16h4v6h-4zM17 29l5 3-4 7m2 4 3 1M23 6l1 4"/></g><g transform="translate(5 -2) rotate(9 36 29)"><path d="m32 5 12 6 6 2-11 2v7l8 9-2 14-7 8-6-2 4-14-5-4 6-6-6-5 4-9z"/><path class="award-accent" d="m35 10 10 3M38 24l4 7-5 3m-1 7 7-1m-5 7 3-1"/></g><path class="award-accent" d="m33 16-7 14 8 2-7 16M7 31l-3 3m49 5 5 2"/></g>',
     obs_placed: '<path d="M7 27s10-14 25-14 25 14 25 14-10 14-25 14S7 27 7 27z"/><circle class="award-accent" cx="32" cy="27" r="7"/><path d="M28 41v13h8V41"/>',
   };
   const awardIcon = (key) => '<span class="match-award-icon award-' + key + '" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" focusable="false">' + (awardPaths[key] || '') + '</svg></span>';
