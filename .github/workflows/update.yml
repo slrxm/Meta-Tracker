@@ -1,5 +1,11 @@
 name: Update meta
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/update.yml'
+      - 'scripts/update.py'
+      - 'app-config.json'
   schedule:
     - cron: '17 */3 * * *'
   workflow_dispatch:
