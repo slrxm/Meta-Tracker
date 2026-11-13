@@ -414,7 +414,7 @@ function showMatch(m, H) {
     tower_damage: '<g stroke-width="2.1"><path d="m9 54 16-6 15 1 15 7-22 6zM9 54v4l24 6 22-8"/><g transform="rotate(-8 25 30)"><path d="m10 12 7-2 8-7 7 7-5 4-3 7 5 4-6 5 4 5-3 16-5-4-5-20 3-7v-7z"/><path class="award-accent" d="m13 12 13 1M20 16h4v6h-4zM17 29l5 3-4 7m2 4 3 1M23 6l1 4"/></g><g transform="translate(5 -2) rotate(9 36 29)"><path d="m32 5 12 6 6 2-11 2v7l8 9-2 14-7 8-6-2 4-14-5-4 6-6-6-5 4-9z"/><path class="award-accent" d="m35 10 10 3M38 24l4 7-5 3m-1 7 7-1m-5 7 3-1"/></g><path class="award-accent" d="m33 16-7 14 8 2-7 16M7 31l-3 3m49 5 5 2"/></g>',
     obs_placed: '<path d="M7 27s10-14 25-14 25 14 25 14-10 14-25 14S7 27 7 27z"/><circle class="award-accent" cx="32" cy="27" r="7"/><path d="M28 41v13h8V41"/>',
   };
-  const awardIcon = (key) => '<span class="match-award-icon award-' + key + '" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" focusable="false">' + (awardPaths[key] || '') + '</svg></span>';
+  const awardIcon = (key) => key === 'kills' ? '<span class="match-award-icon award-kills" aria-hidden="true"><img src="./icons/kill-skull.png?v=15" alt="" width="52" height="52" style="object-fit:contain"></span>' : '<span class="match-award-icon award-' + key + '" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" focusable="false">' + (awardPaths[key] || '') + '</svg></span>';
   const card = (t, p, v) =>
     (p[v[0]] || 0) > 0
       ? '<div class="card match-award"><div class="match-award-heading">' + awardIcon(v[0]) + '<div class="k">' +
