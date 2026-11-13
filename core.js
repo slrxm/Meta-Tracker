@@ -1,3 +1,5 @@
+// Valve's asset names are not always the display names (Wraith King = skeleton_king).
+const HERO_PORTRAITS = {"1":"antimage","2":"axe","3":"bane","4":"bloodseeker","5":"crystal_maiden","6":"drow_ranger","7":"earthshaker","8":"juggernaut","9":"mirana","10":"morphling","11":"nevermore","12":"phantom_lancer","13":"puck","14":"pudge","15":"razor","16":"sand_king","17":"storm_spirit","18":"sven","19":"tiny","20":"vengefulspirit","21":"windrunner","22":"zuus","23":"kunkka","25":"lina","26":"lion","27":"shadow_shaman","28":"slardar","29":"tidehunter","30":"witch_doctor","31":"lich","32":"riki","33":"enigma","34":"tinker","35":"sniper","36":"necrolyte","37":"warlock","38":"beastmaster","39":"queenofpain","40":"venomancer","41":"faceless_void","42":"skeleton_king","43":"death_prophet","44":"phantom_assassin","45":"pugna","46":"templar_assassin","47":"viper","48":"luna","49":"dragon_knight","50":"dazzle","51":"rattletrap","52":"leshrac","53":"furion","54":"life_stealer","55":"dark_seer","56":"clinkz","57":"omniknight","58":"enchantress","59":"huskar","60":"night_stalker","61":"broodmother","62":"bounty_hunter","63":"weaver","64":"jakiro","65":"batrider","66":"chen","67":"spectre","68":"ancient_apparition","69":"doom_bringer","70":"ursa","71":"spirit_breaker","72":"gyrocopter","73":"alchemist","74":"invoker","75":"silencer","76":"obsidian_destroyer","77":"lycan","78":"brewmaster","79":"shadow_demon","80":"lone_druid","81":"chaos_knight","82":"meepo","83":"treant","84":"ogre_magi","85":"undying","86":"rubick","87":"disruptor","88":"nyx_assassin","89":"naga_siren","90":"keeper_of_the_light","91":"wisp","92":"visage","93":"slark","94":"medusa","95":"troll_warlord","96":"centaur","97":"magnataur","98":"shredder","99":"bristleback","100":"tusk","101":"skywrath_mage","102":"abaddon","103":"elder_titan","104":"legion_commander","105":"techies","106":"ember_spirit","107":"earth_spirit","108":"abyssal_underlord","109":"terrorblade","110":"phoenix","111":"oracle","112":"winter_wyvern","113":"arc_warden","114":"monkey_king","119":"dark_willow","120":"pangolier","121":"grimstroke","123":"hoodwink","126":"void_spirit","128":"snapfire","129":"mars","131":"ringmaster","135":"dawnbreaker","136":"marci","137":"primal_beast","138":"muerta","145":"kez","155":"largo"};
 let DB = { ranks: [], roles: [], data: {} };
 window.applyMeta = function (j) {
   DB = j;
@@ -74,13 +76,8 @@ function render() {
     (f.length
       ? f
           .map((x) => {
-            const t = tier(x.wr),
-              ini = x.hero
-                .split(" ")
-                .map((w) => w[0])
-                .join("")
-                .slice(0, 2);
-            return `<div class="row"><div class="tier t${t}">${t}</div><div class="hero"><span class="av">${ini}</span><button class="hero-link" data-hero-id="${Number(x.heroId) || 0}" data-hero-name="${esc(x.hero)}">${esc(x.hero)} ↗</button></div>
+            const t = tier(x.wr);
+            return `<div class="row"><div class="tier t${t}">${t}</div><div class="hero">${avId(x.heroId, x.hero)}<button class="hero-link" data-hero-id="${Number(x.heroId) || 0}" data-hero-name="${esc(x.hero)}">${esc(x.hero)} ↗</button></div>
    <div class="wr"><b>${x.wr.toFixed(1)}%</b><div class="trk"><div class="fill" style="width:${Math.max(0, Math.min(100, ((x.wr - 44) / 12) * 100))}%"></div></div></div>
    <div class="num">${x.pr.toFixed(1)}%</div><div class="num ${x.tr >= 0 ? "up" : "dn"}">${x.tr >= 0 ? "▲" : "▼"} ${Math.abs(x.tr).toFixed(1)}</div></div>`;
           })
@@ -604,9 +601,9 @@ function avId(id, n) {
   return (
     '<span class="av">' +
     esc(ini) +
-    (HN[id]
-      ? '<img alt="" src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/' +
-        esc(HN[id]) +
+    (HN[id] || HERO_PORTRAITS[id]
+      ? '<img alt="" loading="lazy" decoding="async" src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/' +
+        esc(HN[id] || HERO_PORTRAITS[id]) +
         '.png" onerror="this.remove()">'
       : "") +
     "</span>"
@@ -1433,4 +1430,5 @@ if (
       .catch(() => {}),
   );
 }
+
 

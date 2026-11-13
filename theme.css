@@ -864,3 +864,8 @@ header { background:#191518; border:1px solid var(--line); border-radius:20px; p
 :focus-visible { outline:2px solid #f5c7d8; outline-offset:4px; }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { transition:none!important; scroll-behavior:auto!important; } }
 
+
+/* Game portraits retain their original landscape framing in the meta table. */
+.row .av { width:48px; height:28px; border-radius:6px; background:var(--panel2); }
+
+

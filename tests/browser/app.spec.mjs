@@ -53,6 +53,24 @@ test("mobile layout, downloads, search and account availability", async ({
     fullPage: true,
   });
 });
+test("meta portraits use Valve asset names and load in the browser", async ({ page }) => {
+  await page.goto("/");
+  await page.evaluate(() => window.applyMeta({
+    ranks: ["Legend"], roles: ["Carry"], data: { "0|0": [
+      { hero: "Wraith King", heroId: 42, wr: 55, pr: 5, tr: 1 },
+      { hero: "Axe", heroId: 2, wr: 54, pr: 4, tr: 0 },
+    ] },
+  }));
+  const portraits = page.locator("#list .av img");
+  await expect(portraits).toHaveCount(2);
+  await expect(portraits.nth(0)).toHaveAttribute("src", /\/skeleton_king\.png$/);
+  await expect(portraits.nth(1)).toHaveAttribute("src", /\/axe\.png$/);
+  for (const portrait of await portraits.all()) {
+    await portrait.scrollIntoViewIfNeeded();
+    await expect.poll(() => portrait.evaluate(img => img.complete && img.naturalWidth > 0), { timeout: 20000 }).toBeTruthy();
+  }
+});
+
 test("empty rank slice is handled without a JavaScript crash", async ({
   page,
 }) => {
@@ -152,4 +170,5 @@ test('player, comparison and match analysis remain functional',async({page})=>{
  await page.locator('#nv1').click();await page.locator('#mid').fill('900001');await page.locator('#mid').press('Enter');await expect(page.locator('#matchAnalysis')).toContainText('600 GPM');await expect(page.locator('#matchAnalysis')).toContainText('отыграл');await expect(page.locator('#chartbox svg')).toBeVisible();
 });
 test('Dota IDs validate platform and numeric range',async({page})=>{await page.goto('/');const ids=await page.evaluate(()=>['123','76561198083722517','https://steamcommunity.com/profiles/76561198083722517','https://www.dotabuff.com/players/123','0','4294967296','https://evil.test/players/123'].map(x=>window.parseId(x)));expect(ids).toEqual(['123','123456789','123456789','123',null,null,null]);});
+
 
