@@ -36,4 +36,7 @@ jobs:
       - name: Publish
         id: deploy
         uses: actions/deploy-pages@v4
+      - name: Verify public website
+        run: node scripts/verify-public.mjs
+
 
