@@ -227,25 +227,28 @@ select:focus {
   border: 1px solid;
 }
 .tS {
-  color: #fff;
-  background: #b1778d;
-  border-color: var(--ice);
+  color: #39ff14;
+  background: #10290e;
+  border-color: #2acb12;
   box-shadow: none;
 }
 .tA {
-  color: var(--ice2);
-  background: #36272f;
-  border-color: #2b6a96;
+  color: #99df79;
+  background: #1c2b18;
+  border-color: #608b4d;
+  box-shadow: none;
 }
 .tB {
-  color: var(--mut);
-  background: #1f171b;
-  border-color: var(--line);
+  color: #f1d36b;
+  background: #302814;
+  border-color: #9a8138;
+  box-shadow: none;
 }
 .tC {
-  color: #6a7d90;
-  background: #161013;
-  border-color: #31232a;
+  color: #f48181;
+  background: #321c1e;
+  border-color: #a74e55;
+  box-shadow: none;
 }
 .wr {
   display: flex;
@@ -798,24 +801,28 @@ select:focus {
   background: radial-gradient(circle at 30% 25%, #f3cada, #efb5ca 58%, #b1778d);
 }
 .tS {
-  background: #b1778d;
-  border-color: #f3cada;
+  color: #39ff14;
+  background: #10290e;
+  border-color: #2acb12;
   box-shadow: none;
 }
 .tA {
-  color: #f3cada;
-  background: #36272f;
-  border-color: #b1778d;
+  color: #99df79;
+  background: #1c2b18;
+  border-color: #608b4d;
+  box-shadow: none;
 }
 .tB {
-  color: #f3cada;
-  background: #1f171b;
-  border-color: #b1778d;
+  color: #f1d36b;
+  background: #302814;
+  border-color: #9a8138;
+  box-shadow: none;
 }
 .tC {
-  color: #f3cada;
-  background: #161013;
-  border-color: #31232a;
+  color: #f48181;
+  background: #321c1e;
+  border-color: #a74e55;
+  box-shadow: none;
 }
 .chip {
   background: #1f171b;
