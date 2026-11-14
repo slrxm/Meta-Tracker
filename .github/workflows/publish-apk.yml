@@ -1,0 +1,63 @@
+name: Publish Android APK
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/publish-apk.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: publish-android-apk
+  cancel-in-progress: false
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: android-actions/setup-android@v3
+      - run: npm ci
+      - run: npm run mobile:sync
+      - name: Build installable APK
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ] && [ -n "$KEYSTORE_PASSWORD" ] && [ -n "$KEY_ALIAS" ] && [ -n "$KEY_PASSWORD" ]; then
+            export ANDROID_KEYSTORE_PATH="$RUNNER_TEMP/release.jks"
+            export ANDROID_KEYSTORE_PASSWORD="$KEYSTORE_PASSWORD"
+            export ANDROID_KEY_ALIAS="$KEY_ALIAS"
+            export ANDROID_KEY_PASSWORD="$KEY_PASSWORD"
+            printf '%s' "$KEYSTORE_BASE64" | base64 --decode > "$ANDROID_KEYSTORE_PATH"
+            trap 'rm -f "$ANDROID_KEYSTORE_PATH"' EXIT
+            (cd android && bash gradlew assembleRelease)
+            cp android/app/build/outputs/apk/release/app-release.apk META-TRACKER.apk
+            echo 'Signed release APK for direct installation. Android 6.0 or later.' > release-notes.txt
+          else
+            (cd android && bash gradlew assembleDebug)
+            cp android/app/build/outputs/apk/debug/app-debug.apk META-TRACKER.apk
+            echo 'Test APK for direct installation. Android 6.0 or later. Signed with a build-specific debug certificate; later builds may require reinstalling. This is not a Google Play release.' > release-notes.txt
+          fi
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose META-TRACKER.apk
+          sha256sum META-TRACKER.apk > META-TRACKER.apk.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: meta-tracker-installable-apk
+          path: |
+            META-TRACKER.apk
+            META-TRACKER.apk.sha256
+      - name: Publish download
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="android-apk-${{ github.run_number }}"
+          gh release create "$TAG" META-TRACKER.apk META-TRACKER.apk.sha256 --target "$GITHUB_SHA" --title "META TRACKER Android APK" --notes-file release-notes.txt --prerelease
