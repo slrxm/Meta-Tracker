@@ -28,7 +28,9 @@ test("mobile layout, downloads, search and account availability", async ({
   await expect(page.locator("#list .row:not(.head)")).toHaveCount(1);
   await page.locator("#downloadApp").click();
   await expect(page.locator("#downloadDialog")).toBeVisible();
-  await expect(page.locator(".store[aria-disabled=true]")).toHaveCount(2);
+  await expect(page.locator(".store[aria-disabled=true]")).toHaveCount(1);
+  await expect(page.locator('a.store[href$="/META-TRACKER.apk"]')).toBeVisible();
+  await expect(page.locator('a.store[href$="/META-TRACKER.apk"]')).toHaveAttribute("href", "https://github.com/slrxm/Meta-Tracker/releases/download/android-apk-2/META-TRACKER.apk");
   await page.locator("#closeDownload").click();
   await page.locator("#accountButton").click();
   await expect(page.locator("#accountPanel")).toBeVisible();
