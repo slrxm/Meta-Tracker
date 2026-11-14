@@ -1,6 +1,6 @@
 {
   "apiBase": "",
   "googlePlayUrl": "",
-  "androidApkUrl": "",
+  "androidApkUrl": "https://github.com/slrxm/Meta-Tracker/releases/download/android-apk-2/META-TRACKER.apk",
   "metaUrl": "https://slrxm.github.io/Meta-Tracker/data.json"
 }
